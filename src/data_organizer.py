@@ -19,13 +19,7 @@ class DataOrganizer:
             raise ValueError(f"Column '{column_name}' does not exist.")
         self._data = self._data.sort_values(by=column_name)
         return self._data
-
-    def to_csv(self, file_name="alphabetized_output.csv"):
-        """Export the sorted DataFrame to CSV."""
-        self._data.to_csv(file_name, index=False)
-        return f"Saved sorted data to '{file_name}'."
-
-    # ----- Dunder Methods -----
+        
     def __repr__(self):
         return f"DataOrganizer(rows={len(self._data)}, columns={len(self._data.columns)})"
 
