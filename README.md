@@ -1,69 +1,120 @@
-# **Project Overview — DataMedic**
+# DataMedic
 
-**DataMedic** is a modular and extensible data processing toolkit designed to streamline the essential steps of data analysis, from loading and inspecting data to cleaning, visualizing, exporting, and reporting. The project aims to provide a structured, beginner-friendly framework that makes data workflows more organized, reusable, and easier to maintain.
+A lightweight toolkit for inspecting, cleaning, organizing, and exporting datasets.  
+Designed for quick data quality checks, automated cleaning, and report generation.
 
-Built with a medical-inspired theme, each component of the system plays a specific “role” in diagnosing and treating datasets:
+---
 
-- **DataGetter** – fetches and loads raw data files from a specified directory
+## 📌 Project Overview
 
-- **DataDoctor** – performs cleaning operations such as handling missing values, duplicates, and inconsistent entries
+DataMedic provides a simple workflow for handling messy datasets.  
+It includes tools for:
 
-- **DataInspector** – examines dataset structure, quality, and statistical characteristics
+- Detecting missing values  
+- Identifying duplicate rows  
+- Detecting outliers (IQR-based or statistical)  
+- Cleaning + automatic fixing  
+- Organizing dataset columns and rows  
+- Exporting cleaned data (CSV / Excel / JSON)  
+- Generating dataset health reports  
+- Running complete pipelines combining cleaning, exporting, and reporting  
 
-- **DataVisualizer** – generates charts and plots for data interpretation
+The goal is to make data preprocessing easier and more consistent.
 
-- **DataExporter** – saves cleaned or transformed datasets to various file formats
+---
 
-- **ReportGenerator** – produces text-based summaries of data conditions and processing steps
+## 📦 Installation
 
-- **DataPipeline** – orchestrates and automates the full workflow from start to finish
+Install via pip:
 
-The modular design ensures that each component can be used independently or as part of a complete automated pipeline. This makes DataMedic effective for tasks such as exploratory analysis, data cleaning exercises, classroom demonstrations, and rapid prototyping.
-
-By organizing the system as a Python package with clear separation of concerns, DataMedic emphasizes clean architecture, reusability, and maintainability—making the toolkit valuable for students, beginners, and anyone who needs a practical, structured approach to data analysis.
-
-# Installation
-
-```python
+```bash
 pip install datamedic
 ```
 
-# Example usage
+Or, if you're installing from source:
 
-```python
-from DataMedic.data_getter import DataGetter
-from DataMedic.data_doctor import DataDoctor
-from DataMedic.report_generator import ReportGenerator
-from DataMedic.visualizer import DataVisualizer
-from DataMedic.exporter import DataExporter
-from DataMedic.pipeline import DataPipeline
-
-# === Step 1: Load dataset ===
-getter = DataGetter()
-print("Loading file...")
-df = getter.read_csv("sample.csv")
-
-# === Step 2: Initialize doctor ===
-doctor = DataDoctor(df)
-
-# === Step 3: Visualizer & Exporter ===
-visualizer = DataVisualizer(df)
-exporter = DataExporter(df)
-
-# === Step 4: Report Generator ===
-reporter = ReportGenerator(doctor)
-
-# === Step 5: Build pipeline ===
-pipeline = DataPipeline(
-    doctor=doctor,
-    visualizer=visualizer,
-    exporter=exporter,
-    reporter=reporter
-)
-
-# === Step 6: Run everything ===
-pipeline.run()
-
+```bash
+pip install .
 ```
 
+---
 
+## 🚀 Example Usage
+
+### **1. Inspecting and Cleaning a Dataset**
+
+```python
+import pandas as pd
+from datamedic import DataCleaner
+
+df = pd.read_csv("sample.csv")
+
+cleaner = DataCleaner(df)
+
+# Diagnose issues
+issues = cleaner.diagnose()
+print("Issues found:", issues)
+
+# Apply cleaning (missing, duplicates, outliers)
+cleaned_df = cleaner.treat()
+
+print(cleaned_df.head())
+```
+
+---
+
+### **2. Exporting Cleaned Data**
+
+```python
+from datamedic import DataExporter
+
+exporter = DataExporter(cleaned_df)
+
+exporter.to_csv("output.csv")
+exporter.to_excel("output.xlsx")
+exporter.to_json("output.json")
+```
+
+---
+
+### **3. Generating a Data Report**
+
+```python
+from datamedic import ReportGenerator
+
+reporter = ReportGenerator(cleaned_df)
+report = reporter.report()
+score = reporter.health_score()
+
+print("Report:", report)
+print("Health Score:", score)
+
+reporter.export_report("dataset_report.txt")
+```
+
+---
+
+### **4. Running a Full Data Pipeline**
+
+```python
+from datamedic import DataCleaner, DataOutput, DataPipeline
+import pandas as pd
+
+df = pd.read_csv("sample.csv")
+
+cleaner = DataCleaner(df)
+output = DataOutput(df)
+
+pipeline = DataPipeline(doctor=cleaner, exporter=output.exporter, reporter=output.reporter)
+pipeline.run()
+```
+
+---
+
+## 📄 License
+
+This project is released under the MIT License.
+
+---
+
+If ganahan ka Jave, pwede tika himuan og **logo**, **PyPI description**, or **badge-style header** para mas professional tan-awon sa PyPI.
