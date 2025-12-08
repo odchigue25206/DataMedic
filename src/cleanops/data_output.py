@@ -23,7 +23,7 @@ class DataExporter:
 
 
 class ReportGenerator:
-    """Generate data quality report and health score."""
+    """Create a summary report of dataset issues such as missing values, duplicates, and outliers."""
 
     def __init__(self, dataframe: pd.DataFrame) -> None:
         self._data = dataframe.copy()
@@ -42,14 +42,18 @@ class ReportGenerator:
         self._report_data = {"missing": missing, "duplicates": duplicates, "outliers": outliers}
         return self._report_data
 
-    def export_report(self, file_name: str = "report.json") -> None:
+    def export_report(self, file_name: str = "report.txt") -> None:
+        """Export the data report to a TXT file."""
         if not self._report_data:
             self.report()
+
         with open(file_name, "w") as f:
-            json.dump(self._report_data, f, indent=4)
+            for key, value in self._report_data.items():
+                f.write(f"{key.upper()}:\n{value}\n\n")
 
     def __repr__(self) -> str:
         return "<ReportGenerator>"
+
 
 
 class DataOutput:
