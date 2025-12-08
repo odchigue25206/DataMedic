@@ -1,27 +1,29 @@
-class DataPipeline:
-    """Chains cleaning, visualization, and export steps."""
+from typing import Optional, Any
 
-    def __init__(self, doctor, visualizer=None, exporter=None, reporter=None):
-        self.doctor = doctor
-        self.visualizer = visualizer
+class DataPipeline:
+    """Chain cleaning, visualization, and export steps."""
+
+    def __init__(
+        self,
+        cleaner: Any,
+        exporter: Optional[Any] = None,
+        reporter: Optional[Any] = None,
+    ):
+        self.cleaner = cleaner
         self.exporter = exporter
         self.reporter = reporter
 
-    def run(self):
+    def run(self) -> None:
         print("=== Diagnosing Issues ===")
-        for s in self.doctor.diagnose():
-            print("-", s)
+        for col, msgs in self.cleaner.diagnose().items():
+            for msg in msgs:
+                print(f"- {col}: {msg}")
 
         print("\n=== Applying Treatments ===")
-        self.doctor.treat()
+        self.cleaner.treat()
         print("\n=== Fix Log ===")
-        for log in self.doctor.get_fix_log():
+        for log in self.cleaner.get_fix_log():
             print("-", log)
-
-        if self.visualizer:
-            print("\n=== Visualizing ===")
-            self.visualizer.plot_missing()
-            self.visualizer.plot_outliers()
 
         if self.exporter:
             print("\n=== Exporting Cleaned Data ===")
@@ -34,6 +36,5 @@ class DataPipeline:
             self.reporter.export_report()
             print("\n=== Report Generated ===")
 
-    # Dunder method
-    def __repr__(self):
-        return f"<DataPipeline doctor={self.doctor}, visualizer={self.visualizer}, exporter={self.exporter}>"
+    def __repr__(self) -> str:
+        return f"<DataPipeline cleaner={self.cleaner}, exporter={self.exporter}>"
