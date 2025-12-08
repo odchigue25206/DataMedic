@@ -47,7 +47,7 @@ pip install .
 import pandas as pd
 from cleanops import DataCleaner
 
-df = pd.read_csv("sample.csv")
+df = pd.read_csv("test_data_150.csv")
 
 cleaner = DataCleaner(df)
 
@@ -73,6 +73,7 @@ exporter = DataExporter(cleaned_df)
 exporter.to_csv("output.csv")
 exporter.to_excel("output.xlsx")
 exporter.to_json("output.json")
+
 ```
 
 ---
@@ -84,12 +85,10 @@ from cleanops import ReportGenerator
 
 reporter = ReportGenerator(cleaned_df)
 report = reporter.report()
-score = reporter.health_score()
 
 print("Report:", report)
-print("Health Score:", score)
 
-reporter.export_report("dataset_report.txt")
+reporter.export_report("dataset_report.json")
 ```
 
 ---
@@ -100,13 +99,13 @@ reporter.export_report("dataset_report.txt")
 from cleanops import DataCleaner, DataOutput, DataPipeline
 import pandas as pd
 
-df = pd.read_csv("sample.csv")
+df = pd.read_csv("test_data_150.csv")
 
 cleaner = DataCleaner(df)
 output = DataOutput(df)
 
 pipeline = DataPipeline(
-    doctor=cleaner, 
+    cleaner=cleaner, 
     exporter=output.exporter, 
     reporter=output.reporter
 )
