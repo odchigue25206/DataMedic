@@ -3,3 +3,61 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Build artifacts
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+
+# PyPI build folders
+*.whl
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# Cache
+*.log
+.cache/
+.ipynb_checkpoints/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python settings
+*.pyo
+*.pyd
+
+# Test results
+.coverage
+htmlcov/
+
+# Jupyter temporary files
+*.nbconvert.tmp*
+
+# Data folders (your datasets)
+datasets/
+data/
+samples/
+*.csv
+*.xlsx
+*.json
+
+# Test files
+test/
+tests/
+testing/
+
+# Auto-generated reports by your package
+report.txt
+cleaned_data.csv
+cleaned_data.json
+cleaned_data.xlsx
