@@ -105,11 +105,13 @@ class DataCleaner(DataInspector):
             self._data[col] = self._data[col].fillna(fill_value)
             self._fix_log.append(f"Filled missing '{col}' with {fill_value}")
 
-    def fix_duplicates(self) -> None:
+    def fix_duplicates(self, column: str) -> None:
         before = self._data.shape[0]
-        self._data.drop_duplicates(inplace=True)
+        self._data.drop_duplicates(subset=[column], inplace=True)
         removed = before - self._data.shape[0]
-        self._fix_log.append(f"Removed {removed} duplicate rows")
+        self._fix_log.append(
+            f"Removed {removed} duplicate rows based on column '{column}'"
+        )
 
     def fix_outliers(self, strategy: str = "clip") -> None:
         """Handle outliers using strategy. Currently only 'clip' is supported."""
